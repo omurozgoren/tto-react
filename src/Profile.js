@@ -1,9 +1,12 @@
 ﻿import React, { useEffect, useState } from "react";
 import logo from "./logo.jpeg";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Profile() {
     const [user, setUser] = useState(null);
+    const [friendEmail, setFriendEmail] = useState("");
+    const [friendStatus, setFriendStatus] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,6 +20,20 @@ function Profile() {
 
     const handleGoChat = () => {
         navigate("/chat"); // ✅ Chat sayfasına yönlendir
+    };
+
+    const handleAddFriend = async () => {
+        if (!friendEmail || !user?.email) return;
+
+        try {
+            const res = await axios.post("https://tto-backend.onrender.com/friend/add", {
+                userEmail: user.email,
+                friendEmail: friendEmail.trim()
+            });
+            setFriendStatus(res.data.message);
+        } catch (err) {
+            setFriendStatus(err.response?.data?.message || "Bir hata oluştu");
+        }
     };
 
     if (!user) return <p>Yükleniyor...</p>;
@@ -53,8 +70,19 @@ function Profile() {
                 <p><span className="stat-pill">⭐ Puan :</span> 4.7</p>
             </div>
 
+            <div className="friend-section">
+                <input
+                    type="email"
+                    placeholder="Arkadaşının e-posta adresi"
+                    value={friendEmail}
+                    onChange={(e) => setFriendEmail(e.target.value)}
+                />
+                <button onClick={handleAddFriend}>Arkadaş Ekle</button>
+                {friendStatus && <p style={{ fontSize: "14px", color: "#333" }}>{friendStatus}</p>}
+            </div>
+
             <div className="button-group">
-                <button className="blue" onClick={handleGoChat}>Sohbete Git 💬</button> {/* ✅ Yeni Chat butonu */}
+                <button className="blue" onClick={handleGoChat}>Sohbete Git 💬</button>
                 <button className="red" onClick={handleGoBack}>Ana Menü</button>
             </div>
         </div>
