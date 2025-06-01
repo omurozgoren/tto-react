@@ -1,40 +1,48 @@
-﻿import React from "react";
-import { useNavigate } from "react-router-dom";
-import "./App.css";
+﻿import React, { useEffect, useState } from "react";
 import logo from "./logo.jpeg";
 
-export default function Profile() {
-    const navigate = useNavigate();
-    const email = localStorage.getItem("userEmail") || "example@tto.com";
+function Profile({ handleLogout }) {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem("user"));
+        setUser(storedUser);
+    }, []);
+
+    if (!user) return <p>Yükleniyor...</p>;
 
     return (
-        <div className="profile-page">
-            <div className="card-container">
-                <img src={logo} alt="TTO Logo" className="profile-logo" />
-                <h2 className="profile-title">Profilim</h2>
-                <p className="profile-email">{email}</p>
+        <div className="profile-card">
+            <img src={logo} alt="TTO Logo" className="profile-logo" />
+            <h2 className="profile-title">Profilim</h2>
+            <p className="profile-name">{user.name}</p> {/* 👈 Email yerine isim */}
 
-                <div className="skills-section">
-                    <h3>🎓 Sahip Olduğu Yetenekler</h3>
-                    <div className="pill-container">
-                        <span className="pill">🎸 Guitar</span>
-                        <span className="pill">🇫🇷 French</span>
-                    </div>
-
-                    <h3>🔍 Öğrenmek İstediği Yetenekler</h3>
-                    <div className="pill-container">
-                        <span className="pill">🇫🇷 French</span>
-                        <span className="pill">🎨 Graphic Design</span>
-                    </div>
+            <div className="profile-section">
+                <h4>🎓 Sahip Olduğu Yetenekler</h4>
+                <div className="pill-container">
+                    {user.skillsHave && user.skillsHave.map((skill, i) => (
+                        <span key={i} className="pill">{skill}</span>
+                    ))}
                 </div>
-
-                <div className="stats">
-                    <div><strong>⭐ Puan :</strong> 4.7</div>
-                    <div><strong>⏳ Time Credits:</strong> 12</div>
-                </div>
-
-                <button onClick={() => navigate("/")} className="red">Ana Menü</button>
             </div>
+
+            <div className="profile-section">
+                <h4>🔍 Öğrenmek İstediği Yetenekler</h4>
+                <div className="pill-container">
+                    {user.skillsWant && user.skillsWant.map((skill, i) => (
+                        <span key={i} className="pill">{skill}</span>
+                    ))}
+                </div>
+            </div>
+
+            <div className="stats">
+                <p><span className="stat-pill">⭐ Puan :</span> 4.7</p>
+                <p><span className="stat-pill">⏳ Time Credits:</span> 12</p>
+            </div>
+
+            <button className="red" onClick={handleLogout}>Ana Menü</button>
         </div>
     );
 }
+
+export default Profile;
