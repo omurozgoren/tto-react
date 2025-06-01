@@ -25,7 +25,7 @@ function Profile() {
         if (!friendEmail || !user?.email) return;
 
         try {
-            const response = await fetch("http://localhost:5000/api/friends", {
+            const response = await fetch("http://tto-react.vercel.app/api/friends", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
