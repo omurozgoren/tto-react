@@ -12,7 +12,7 @@ import logo from "./logo.jpeg";
 import Welcome from "./Welcome";
 import Profile from "./Profile";
 import Chat from "./Chat";
-import Ispanyolca from "./pages/Ispanyolca"; // ✅ Yeni sayfa eklendi
+
 
 const skills = [
     "Gitar 🎸",
@@ -120,7 +120,7 @@ function AppRoutes() {
                 <Route path="/" element={<Welcome handleLogout={handleLogout} />} />
                 <Route path="/profile" element={<Profile handleLogout={handleLogout} />} />
                 <Route path="/chat" element={<Chat />} />
-                <Route path="/skill/ispanyolca" element={<Ispanyolca />} />
+            
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         );
