@@ -6,14 +6,29 @@ import logo from "./logo.jpeg";
 import Welcome from "./Welcome";
 import Profile from "./Profile";
 
+const skills = [
+    "Guitar 🎸",
+    "French 🇫🇷",
+    "Spanish 🇪🇸",
+    "Graphic Design 🎨",
+    "Web Development 💻",
+    "Photography 📸",
+    "Public Speaking 🎤",
+    "Cooking 🍳",
+    "Yoga 🧘‍♀️",
+    "Video Editing 🎬"
+];
+
 function App() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const [selectedSkillsHave, setSelectedSkillsHave] = useState([]);
+    const [selectedSkillsWant, setSelectedSkillsWant] = useState([]);
     const [isRegistering, setIsRegistering] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // 🔄 Otomatik giriş kontrolü
+    // Otomatik giriş kontrolü
     useEffect(() => {
         const savedUser = JSON.parse(localStorage.getItem("user"));
         if (savedUser?.email && savedUser?.token) {
@@ -29,10 +44,16 @@ function App() {
             : "https://tto-backend.onrender.com/login";
 
         try {
-            const res = await axios.post(url, { email, password });
+            const payload = {
+                email,
+                password,
+                skillsHave: selectedSkillsHave,
+                skillsWant: selectedSkillsWant,
+            };
+
+            const res = await axios.post(url, payload);
             setMessage(res.data.message);
 
-            // ✅ Giriş başarılıysa localStorage’a kullanıcıyı kaydet
             if (res.data.token) {
                 localStorage.setItem("user", JSON.stringify({ email, token: res.data.token }));
             }
@@ -43,11 +64,19 @@ function App() {
         }
     };
 
+    const toggleSkill = (skill, list, setList) => {
+        if (list.includes(skill)) {
+            setList(list.filter((s) => s !== skill));
+        } else if (list.length < 3) {
+            setList([...list, skill]);
+        }
+    };
+
     const handleLogout = () => {
         setIsLoggedIn(false);
         setEmail("");
         setPassword("");
-        localStorage.removeItem("user"); // 🔴 Çıkışta sil
+        localStorage.removeItem("user");
         setMessage("Çıkış yapıldı.");
     };
 
@@ -79,6 +108,41 @@ function App() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
+
+                            {isRegistering && (
+                                <>
+                                    <h4>✨ Sahip Olduğun Yetenekler (en fazla 3)</h4>
+                                    <div className="pill-container">
+                                        {skills.map((skill, index) => (
+                                            <span
+                                                key={index}
+                                                className={`pill ${selectedSkillsHave.includes(skill) ? "selected" : ""}`}
+                                                onClick={() =>
+                                                    toggleSkill(skill, selectedSkillsHave, setSelectedSkillsHave)
+                                                }
+                                            >
+                                                {skill}
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    <h4>📚 Öğrenmek İstediğin Yetenekler (en fazla 3)</h4>
+                                    <div className="pill-container">
+                                        {skills.map((skill, index) => (
+                                            <span
+                                                key={index}
+                                                className={`pill ${selectedSkillsWant.includes(skill) ? "selected" : ""}`}
+                                                onClick={() =>
+                                                    toggleSkill(skill, selectedSkillsWant, setSelectedSkillsWant)
+                                                }
+                                            >
+                                                {skill}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+
                             <button type="submit">{isRegistering ? "Kayıt Ol" : "Giriş Yap"}</button>
                         </form>
                         <button
