@@ -16,8 +16,8 @@ function App() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const url = isRegistering
-            ? "http://localhost:5000/register"
-            : "http://localhost:5000/login";
+            ? "https://tto-backend.onrender.com/register"
+            : "https://tto-backend.onrender.com/login";
 
         try {
             const res = await axios.post(url, { email, password });
