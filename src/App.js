@@ -28,7 +28,6 @@ function App() {
     const [isRegistering, setIsRegistering] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // Otomatik giriş kontrolü
     useEffect(() => {
         const savedUser = JSON.parse(localStorage.getItem("user"));
         if (savedUser?.email && savedUser?.token) {
@@ -37,38 +36,39 @@ function App() {
         }
     }, []);
 
+    const toggleSkill = (skill, list, setList) => {
+        if (list.includes(skill)) {
+            setList(list.filter(s => s !== skill));
+        } else if (list.length < 3) {
+            setList([...list, skill]);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const url = isRegistering
             ? "https://tto-backend.onrender.com/register"
             : "https://tto-backend.onrender.com/login";
 
-        try {
-            const payload = {
+        const payload = isRegistering
+            ? {
                 email,
                 password,
                 skillsHave: selectedSkillsHave,
                 skillsWant: selectedSkillsWant,
-            };
+            }
+            : { email, password };
 
+        try {
             const res = await axios.post(url, payload);
             setMessage(res.data.message);
 
             if (res.data.token) {
                 localStorage.setItem("user", JSON.stringify({ email, token: res.data.token }));
+                setIsLoggedIn(true);
             }
-
-            setIsLoggedIn(true);
         } catch (err) {
             setMessage(err.response?.data?.message || "Bir hata oluştu.");
-        }
-    };
-
-    const toggleSkill = (skill, list, setList) => {
-        if (list.includes(skill)) {
-            setList(list.filter((s) => s !== skill));
-        } else if (list.length < 3) {
-            setList([...list, skill]);
         }
     };
 
@@ -111,30 +111,26 @@ function App() {
 
                             {isRegistering && (
                                 <>
-                                    <h4>✨ Sahip Olduğun Yetenekler (en fazla 3)</h4>
+                                    <h4>Sahip Olduğun Yetenekler (en fazla 3)</h4>
                                     <div className="pill-container">
                                         {skills.map((skill, index) => (
                                             <span
                                                 key={index}
                                                 className={`pill ${selectedSkillsHave.includes(skill) ? "selected" : ""}`}
-                                                onClick={() =>
-                                                    toggleSkill(skill, selectedSkillsHave, setSelectedSkillsHave)
-                                                }
+                                                onClick={() => toggleSkill(skill, selectedSkillsHave, setSelectedSkillsHave)}
                                             >
                                                 {skill}
                                             </span>
                                         ))}
                                     </div>
 
-                                    <h4>📚 Öğrenmek İstediğin Yetenekler (en fazla 3)</h4>
+                                    <h4>Öğrenmek İstediğin Yetenekler (en fazla 3)</h4>
                                     <div className="pill-container">
                                         {skills.map((skill, index) => (
                                             <span
                                                 key={index}
                                                 className={`pill ${selectedSkillsWant.includes(skill) ? "selected" : ""}`}
-                                                onClick={() =>
-                                                    toggleSkill(skill, selectedSkillsWant, setSelectedSkillsWant)
-                                                }
+                                                onClick={() => toggleSkill(skill, selectedSkillsWant, setSelectedSkillsWant)}
                                             >
                                                 {skill}
                                             </span>
