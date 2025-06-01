@@ -11,7 +11,8 @@ import "./App.css";
 import logo from "./logo.jpeg";
 import Welcome from "./Welcome";
 import Profile from "./Profile";
-import Chat from "./Chat"; // ✅ Chat bileşeni eklendi
+import Chat from "./Chat";
+import Ispanyolca from "./pages/Ispanyolca"; // ✅ Yeni sayfa eklendi
 
 const skills = [
     "Gitar 🎸",
@@ -94,7 +95,7 @@ function AppRoutes() {
                 setSelectedSkillsHave(storedData.skillsHave || []);
                 setSelectedSkillsWant(storedData.skillsWant || []);
                 setIsLoggedIn(true);
-                navigate("/"); // ✅ Welcome sayfasına yönlendir
+                navigate("/");
             }
         } catch (err) {
             setMessage(err.response?.data?.message || "Bir hata oluştu.");
@@ -118,7 +119,8 @@ function AppRoutes() {
             <Routes>
                 <Route path="/" element={<Welcome handleLogout={handleLogout} />} />
                 <Route path="/profile" element={<Profile handleLogout={handleLogout} />} />
-                <Route path="/chat" element={<Chat />} /> {/* ✅ Yeni chat route */}
+                <Route path="/chat" element={<Chat />} />
+                <Route path="/skill/ispanyolca" element={<Ispanyolca />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         );
