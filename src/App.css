@@ -1,0 +1,319 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f9fafc;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.app-container, .profile-card {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.logo, .profile-logo {
+    display: block;
+    margin: 0 auto 20px;
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #1f2937;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+    input:focus {
+        border-color: #4f46e5;
+        outline: none;
+    }
+
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #4f46e5;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    button:hover {
+        background-color: #4338ca;
+    }
+
+
+    button.red {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        button.red:hover {
+            background-color: #d32f2f;
+        }
+.switch-btn {
+    background: none;
+    border: none;
+    color: #4f46e5;
+    margin-top: 15px;
+    text-align: center;
+    width: 100%;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+pre {
+    background-color: #f0f0f0;
+    padding: 14px;
+    border-left: 4px solid #4f46e5;
+    border-radius: 8px;
+    margin-top: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    color: #333;
+}
+
+/* === Profile Section === */
+
+.profile-section {
+    text-align: left;
+    margin-top: 20px;
+}
+
+    .profile-section h4 {
+        font-size: 14px;
+        margin: 14px 0 8px;
+        color: #374151;
+    }
+
+.pill-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+
+.pill:hover {
+    transform: scale(1.05);
+}
+.pill {
+    background-color: #e0e7ff;
+    color: #1e3a8a;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease;
+}
+
+/* Stats Section */
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+
+    .stats p {
+        margin: 6px 0;
+    }
+
+
+.stat-pill {
+    background-color: #fef9c3;
+    color: #92400e;
+}
+/* Logout Button */
+
+.logout-btn {
+    margin-top: 24px;
+    padding: 12px 24px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .logout-btn:hover {
+        background-color: #ef4444;
+    }
+
+
+.welcome-container {
+    max-width: 420px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.welcome-logo {
+    width: 100px;
+    margin-bottom: 16px;
+}
+
+.welcome-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.welcome-subtitle {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.circle-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #e0f2fe;
+    border: none;
+    font-size: 12px;
+    font-weight: bold;
+    color: #0369a1;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+    .circle-btn:hover {
+        background-color: #bae6fd;
+    }
+.card-container {
+    width: 400px;
+    min-height: 500px; /* SABÝT UZUNLUK */
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.circle-btn,
+.profile-btn,
+.red,
+.back-btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .circle-btn:hover,
+    .profile-btn:hover,
+    .red:hover,
+    .back-btn:hover {
+        transform: scale(1.05); /* Butona bastýðýnda büyüme efekti */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .circle-btn:active,
+    .profile-btn:active,
+    .red:active,
+    .back-btn:active {
+        transform: scale(0.97); /* Basýlý tutulduðunda küçülme */
+    }
+
+
+.back-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    .back-btn:hover {
+        background-color: #27ae60;
+    }
+
+.profile-title {
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+.profile-email {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #e63946; /* Kýrmýzý */
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+    .back-btn:hover {
+        background-color: #c4303b; /* Daha koyu kýrmýzý */
+    }
