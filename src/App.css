@@ -329,3 +329,11 @@ button.red.chat-btn {
     gap: 10px;
     margin-top: 20px;
 }
+
+.stats {
+    margin-bottom: 12px;
+}
+
+.friend-input {
+    margin-bottom: 8px;
+}

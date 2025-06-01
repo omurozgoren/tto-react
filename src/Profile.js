@@ -76,19 +76,26 @@ function Profile() {
                 ) : <p style={{ color: "#999", fontSize: "14px" }}>Seçim yapılmadı.</p>}
             </div>
 
-            <div className="friend-section">
+            <div className="stats" style={{ marginBottom: "15px", marginTop: "25px" }}>
+                <p><span className="stat-pill">⭐ Puan :</span> 4.7</p>
+            </div>
+
+            <div className="friend-section" style={{ marginBottom: "15px" }}>
                 <input
                     type="email"
                     value={friendEmail}
                     placeholder="Arkadaşının e-posta adresi"
                     onChange={(e) => setFriendEmail(e.target.value)}
+                    style={{ marginBottom: "8px" }}
                 />
-                <button className="green" onClick={handleAddFriend}>Arkadaş Ekle</button>
+                <button
+                    className="green"
+                    style={{ marginBottom: "12px" }}
+                    onClick={handleAddFriend}
+                >
+                    Arkadaş Ekle
+                </button>
                 {message && <p>{message}</p>}
-            </div>
-
-            <div className="stats">
-                <p><span className="stat-pill">⭐ Puan :</span> 4.7</p>
             </div>
 
             <div className="button-group">
