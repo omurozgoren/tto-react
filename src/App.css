@@ -308,3 +308,17 @@ pre {
 button.red.chat-btn {
     background-color: #10b981;
 }
+
+.green {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+    .green:hover {
+        background-color: #45a049;
+    }

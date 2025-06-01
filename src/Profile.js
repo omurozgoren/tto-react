@@ -1,12 +1,11 @@
 ﻿import React, { useEffect, useState } from "react";
 import logo from "./logo.jpeg";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 function Profile() {
     const [user, setUser] = useState(null);
     const [friendEmail, setFriendEmail] = useState("");
-    const [friendStatus, setFriendStatus] = useState("");
+    const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,24 +14,35 @@ function Profile() {
     }, []);
 
     const handleGoBack = () => {
-        navigate("/"); // Welcome sayfasına yönlendir
+        navigate("/");
     };
 
     const handleGoChat = () => {
-        navigate("/chat"); // ✅ Chat sayfasına yönlendir
+        navigate("/chat");
     };
 
     const handleAddFriend = async () => {
         if (!friendEmail || !user?.email) return;
 
         try {
-            const res = await axios.post("https://tto-backend.onrender.com/friend/add", {
-                userEmail: user.email,
-                friendEmail: friendEmail.trim()
+            const response = await fetch("http://localhost:5000/api/friends", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    userEmail: user.email,
+                    friendEmail
+                }),
             });
-            setFriendStatus(res.data.message);
+
+            const data = await response.json();
+            if (response.ok) {
+                setMessage("Arkadaş başarıyla eklendi!");
+                setFriendEmail("");
+            } else {
+                setMessage(data.error || "Bir hata oluştu.");
+            }
         } catch (err) {
-            setFriendStatus(err.response?.data?.message || "Bir hata oluştu");
+            setMessage("Sunucu hatası.");
         }
     };
 
@@ -66,19 +76,19 @@ function Profile() {
                 ) : <p style={{ color: "#999", fontSize: "14px" }}>Seçim yapılmadı.</p>}
             </div>
 
-            <div className="stats">
-                <p><span className="stat-pill">⭐ Puan :</span> 4.7</p>
-            </div>
-
             <div className="friend-section">
                 <input
                     type="email"
-                    placeholder="Arkadaşının e-posta adresi"
                     value={friendEmail}
+                    placeholder="Arkadaşının e-posta adresi"
                     onChange={(e) => setFriendEmail(e.target.value)}
                 />
-                <button onClick={handleAddFriend}>Arkadaş Ekle</button>
-                {friendStatus && <p style={{ fontSize: "14px", color: "#333" }}>{friendStatus}</p>}
+                <button className="green" onClick={handleAddFriend}>Arkadaş Ekle</button>
+                {message && <p>{message}</p>}
+            </div>
+
+            <div className="stats">
+                <p><span className="stat-pill">⭐ Puan :</span> 4.7</p>
             </div>
 
             <div className="button-group">
