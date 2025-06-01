@@ -51,7 +51,6 @@ function Profile() {
 
             <div className="stats">
                 <p><span className="stat-pill">⭐ Puan :</span> 4.7</p>
-                <p><span className="stat-pill">⏳ Time Credits:</span> 12</p>
             </div>
 
             <div className="button-group">
