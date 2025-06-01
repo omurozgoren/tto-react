@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Navigate,
+    useNavigate
+} from "react-router-dom";
 import "./App.css";
 import logo from "./logo.jpeg";
 import Welcome from "./Welcome";
@@ -19,7 +25,7 @@ const skills = [
     "Vidyo Düzenleme 🎬"
 ];
 
-function App() {
+function AppRoutes() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
@@ -28,6 +34,7 @@ function App() {
     const [selectedSkillsWant, setSelectedSkillsWant] = useState([]);
     const [isRegistering, setIsRegistering] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const savedUser = JSON.parse(localStorage.getItem("user"));
@@ -42,7 +49,7 @@ function App() {
 
     const toggleSkill = (skill, list, setList) => {
         if (list.includes(skill)) {
-            setList(list.filter(s => s !== skill));
+            setList(list.filter((s) => s !== skill));
         } else if (list.length < 3) {
             setList([...list, skill]);
         }
@@ -60,7 +67,7 @@ function App() {
                 email,
                 password,
                 skillsHave: selectedSkillsHave,
-                skillsWant: selectedSkillsWant,
+                skillsWant: selectedSkillsWant
             }
             : { email, password };
 
@@ -73,8 +80,12 @@ function App() {
                     name: res.data.name || name,
                     email,
                     token: res.data.token,
-                    skillsHave: isRegistering ? selectedSkillsHave : res.data.skillsHave,
-                    skillsWant: isRegistering ? selectedSkillsWant : res.data.skillsWant
+                    skillsHave: isRegistering
+                        ? selectedSkillsHave
+                        : res.data.skillsHave,
+                    skillsWant: isRegistering
+                        ? selectedSkillsWant
+                        : res.data.skillsWant
                 };
 
                 localStorage.setItem("user", JSON.stringify(storedData));
@@ -82,6 +93,7 @@ function App() {
                 setSelectedSkillsHave(storedData.skillsHave || []);
                 setSelectedSkillsWant(storedData.skillsWant || []);
                 setIsLoggedIn(true);
+                navigate("/"); // ✅ Welcome sayfasına yönlendir
             }
         } catch (err) {
             setMessage(err.response?.data?.message || "Bir hata oluştu.");
@@ -97,93 +109,98 @@ function App() {
         setSelectedSkillsWant([]);
         localStorage.removeItem("user");
         setMessage("Çıkış yapıldı.");
+        navigate("/"); // Çıkışta da ana sayfaya yönlendir
     };
 
+    if (isLoggedIn) {
+        return (
+            <Routes>
+                <Route path="/" element={<Welcome handleLogout={handleLogout} />} />
+                <Route path="/profile" element={<Profile handleLogout={handleLogout} />} />
+                <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+        );
+    }
+
     return (
-        <Router>
-            <div className="app-container">
-                {isLoggedIn ? (
-                    <Routes>
-                        <Route path="/" element={<Welcome handleLogout={handleLogout} />} />
-                        <Route path="/profile" element={<Profile handleLogout={handleLogout} />} />
-                        <Route path="*" element={<Navigate to="/" />} />
-                    </Routes>
-                ) : (
+        <div className="app-container">
+            <img src={logo} alt="TTO Logo" className="logo" />
+            <h2>{isRegistering ? "Kayıt Ol" : "Giriş Yap"}</h2>
+            <form onSubmit={handleSubmit}>
+                {isRegistering && (
+                    <input
+                        type="text"
+                        placeholder="İsminiz"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                    />
+                )}
+                <input
+                    type="email"
+                    placeholder="E-posta"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <input
+                    type="password"
+                    placeholder="Şifre"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                {isRegistering && (
                     <>
-                        <img src={logo} alt="TTO Logo" className="logo" />
-                        <h2>{isRegistering ? "Kayıt Ol" : "Giriş Yap"}</h2>
-                        <form onSubmit={handleSubmit}>
-                            {isRegistering && (
-                                <input
-                                    type="text"
-                                    placeholder="İsminiz"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    required
-                                />
-                            )}
-
-                            <input
-                                type="email"
-                                placeholder="E-posta"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                            <input
-                                type="password"
-                                placeholder="Şifre"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-
-                            {isRegistering && (
-                                <>
-                                    <h4>Sahip Olduğun Yetenekler (en fazla 3)</h4>
-                                    <div className="pill-container">
-                                        {skills.map((skill, index) => (
-                                            <span
-                                                key={index}
-                                                className={`pill ${selectedSkillsHave.includes(skill) ? "selected" : ""}`}
-                                                onClick={() => toggleSkill(skill, selectedSkillsHave, setSelectedSkillsHave)}
-                                            >
-                                                {skill}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    <h4>Öğrenmek İstediğin Yetenekler (en fazla 3)</h4>
-                                    <div className="pill-container">
-                                        {skills.map((skill, index) => (
-                                            <span
-                                                key={index}
-                                                className={`pill ${selectedSkillsWant.includes(skill) ? "selected" : ""}`}
-                                                onClick={() => toggleSkill(skill, selectedSkillsWant, setSelectedSkillsWant)}
-                                            >
-                                                {skill}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </>
-                            )}
-
-                            <button type="submit">{isRegistering ? "Kayıt Ol" : "Giriş Yap"}</button>
-                        </form>
-                        <button
-                            className="switch-btn"
-                            onClick={() => setIsRegistering(!isRegistering)}
-                        >
-                            {isRegistering
-                                ? "Hesabın var mı? Giriş Yap"
-                                : "Hesabın yok mu? Kayıt Ol"}
-                        </button>
-                        {message && <pre>{message}</pre>}
+                        <h4>Sahip Olduğun Yetenekler (en fazla 3)</h4>
+                        <div className="pill-container">
+                            {skills.map((skill, index) => (
+                                <span
+                                    key={index}
+                                    className={`pill ${selectedSkillsHave.includes(skill) ? "selected" : ""
+                                        }`}
+                                    onClick={() =>
+                                        toggleSkill(skill, selectedSkillsHave, setSelectedSkillsHave)
+                                    }
+                                >
+                                    {skill}
+                                </span>
+                            ))}
+                        </div>
+                        <h4>Öğrenmek İstediğin Yetenekler (en fazla 3)</h4>
+                        <div className="pill-container">
+                            {skills.map((skill, index) => (
+                                <span
+                                    key={index}
+                                    className={`pill ${selectedSkillsWant.includes(skill) ? "selected" : ""
+                                        }`}
+                                    onClick={() =>
+                                        toggleSkill(skill, selectedSkillsWant, setSelectedSkillsWant)
+                                    }
+                                >
+                                    {skill}
+                                </span>
+                            ))}
+                        </div>
                     </>
                 )}
-            </div>
-        </Router>
+                <button type="submit">{isRegistering ? "Kayıt Ol" : "Giriş Yap"}</button>
+            </form>
+            <button
+                className="switch-btn"
+                onClick={() => setIsRegistering(!isRegistering)}
+            >
+                {isRegistering ? "Hesabın var mı? Giriş Yap" : "Hesabın yok mu? Kayıt Ol"}
+            </button>
+            {message && <pre>{message}</pre>}
+        </div>
     );
 }
 
-export default App;
+export default function App() {
+    return (
+        <Router>
+            <AppRoutes />
+        </Router>
+    );
+}
