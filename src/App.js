@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
@@ -13,6 +13,15 @@ function App() {
     const [isRegistering, setIsRegistering] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    // 🔄 Otomatik giriş kontrolü
+    useEffect(() => {
+        const savedUser = JSON.parse(localStorage.getItem("user"));
+        if (savedUser?.email && savedUser?.token) {
+            setEmail(savedUser.email);
+            setIsLoggedIn(true);
+        }
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const url = isRegistering
@@ -22,8 +31,13 @@ function App() {
         try {
             const res = await axios.post(url, { email, password });
             setMessage(res.data.message);
+
+            // ✅ Giriş başarılıysa localStorage’a kullanıcıyı kaydet
+            if (res.data.token) {
+                localStorage.setItem("user", JSON.stringify({ email, token: res.data.token }));
+            }
+
             setIsLoggedIn(true);
-            localStorage.setItem("userEmail", email); // Profil sayfası için
         } catch (err) {
             setMessage(err.response?.data?.message || "Bir hata oluştu.");
         }
@@ -33,7 +47,7 @@ function App() {
         setIsLoggedIn(false);
         setEmail("");
         setPassword("");
-        localStorage.removeItem("userEmail");
+        localStorage.removeItem("user"); // 🔴 Çıkışta sil
         setMessage("Çıkış yapıldı.");
     };
 
