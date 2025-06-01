@@ -11,9 +11,11 @@ function Profile({ handleLogout }) {
         setUser(storedUser);
     }, []);
 
-    const handleGoBack = () => {
-        handleLogout(); // localStorage temizle
-        navigate("/");  // ana sayfaya yönlendir
+    // Ana Menü butonuna basıldığında Welcome.js sayfasına yönlendir
+    const handleGoWelcome = () => {
+        // Eğer çıkış yapılmasını istiyorsan bu satırı aktif bırak:
+        handleLogout();
+        navigate("/"); // Welcome.js sayfası
     };
 
     if (!user) return <p>Yükleniyor...</p>;
@@ -32,7 +34,9 @@ function Profile({ handleLogout }) {
                             <span key={i} className="pill">{skill}</span>
                         ))}
                     </div>
-                ) : <p style={{ color: "#999", fontSize: "14px" }}>Yetenek seçilmedi.</p>}
+                ) : (
+                    <p style={{ color: "#999", fontSize: "14px" }}>Yetenek seçilmedi.</p>
+                )}
             </div>
 
             <div className="profile-section">
@@ -43,7 +47,9 @@ function Profile({ handleLogout }) {
                             <span key={i} className="pill">{skill}</span>
                         ))}
                     </div>
-                ) : <p style={{ color: "#999", fontSize: "14px" }}>Seçim yapılmadı.</p>}
+                ) : (
+                    <p style={{ color: "#999", fontSize: "14px" }}>Seçim yapılmadı.</p>
+                )}
             </div>
 
             <div className="stats">
@@ -51,7 +57,7 @@ function Profile({ handleLogout }) {
                 <p><span className="stat-pill">⏳ Time Credits:</span> 12</p>
             </div>
 
-            <button className="red" onClick={handleGoBack}>Ana Menü</button>
+            <button className="red" onClick={handleGoWelcome}>Ana Menü</button>
         </div>
     );
 }
