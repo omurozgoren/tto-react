@@ -64,7 +64,7 @@ function App() {
             setMessage(res.data.message);
 
             if (res.data.token) {
-                localStorage.setItem("user", JSON.stringify({ email, token: res.data.token }));
+                localStorage.setItem("user", JSON.stringify({ email, token: res.data.token, skillsHave: selectedSkillsHave }));
                 setIsLoggedIn(true);
             }
         } catch (err) {
