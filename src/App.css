@@ -322,3 +322,10 @@ button.red.chat-btn {
     .green:hover {
         background-color: #45a049;
     }
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
