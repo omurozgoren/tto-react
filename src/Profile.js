@@ -15,13 +15,13 @@ export default function Profile() {
                 <p className="profile-email">{email}</p>
 
                 <div className="skills-section">
-                    <h3>🎓 Skills Offered</h3>
+                    <h3>🎓 Sahip Olduğu Yetenekler</h3>
                     <div className="pill-container">
                         <span className="pill">🎸 Guitar</span>
                         <span className="pill">🇫🇷 French</span>
                     </div>
 
-                    <h3>🔍 Skills Wanted</h3>
+                    <h3>🔍 Öğrenmek İstediği Yetenekler</h3>
                     <div className="pill-container">
                         <span className="pill">🇫🇷 French</span>
                         <span className="pill">🎨 Graphic Design</span>
@@ -29,7 +29,7 @@ export default function Profile() {
                 </div>
 
                 <div className="stats">
-                    <div><strong>⭐ Rating:</strong> 4.7</div>
+                    <div><strong>⭐ Puan :</strong> 4.7</div>
                     <div><strong>⏳ Time Credits:</strong> 12</div>
                 </div>
 
