@@ -12,7 +12,11 @@ function Profile() {
     }, []);
 
     const handleGoBack = () => {
-        navigate("/"); // ❌ Çıkış yapmadan Welcome sayfasına yönlendir
+        navigate("/"); // Welcome sayfasına yönlendir
+    };
+
+    const handleChat = () => {
+        navigate("/chat"); // Chat sayfasına yönlendir
     };
 
     if (!user) return <p>Yükleniyor...</p>;
@@ -31,7 +35,9 @@ function Profile() {
                             <span key={i} className="pill">{skill}</span>
                         ))}
                     </div>
-                ) : <p style={{ color: "#999", fontSize: "14px" }}>Yetenek seçilmedi.</p>}
+                ) : (
+                    <p style={{ color: "#999", fontSize: "14px" }}>Yetenek seçilmedi.</p>
+                )}
             </div>
 
             <div className="profile-section">
@@ -42,7 +48,9 @@ function Profile() {
                             <span key={i} className="pill">{skill}</span>
                         ))}
                     </div>
-                ) : <p style={{ color: "#999", fontSize: "14px" }}>Seçim yapılmadı.</p>}
+                ) : (
+                    <p style={{ color: "#999", fontSize: "14px" }}>Seçim yapılmadı.</p>
+                )}
             </div>
 
             <div className="stats">
@@ -50,7 +58,25 @@ function Profile() {
                 <p><span className="stat-pill">⏳ Time Credits:</span> 12</p>
             </div>
 
-            <button className="red" onClick={handleGoBack}>Ana Menü</button>
+            <button className="red" onClick={handleGoBack} style={{ marginTop: "20px" }}>
+                Ana Menü
+            </button>
+
+            <button
+                style={{
+                    marginTop: "10px",
+                    padding: "12px 24px",
+                    backgroundColor: "#10b981",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "12px",
+                    fontWeight: "600",
+                    cursor: "pointer"
+                }}
+                onClick={handleChat}
+            >
+                Sohbet
+            </button>
         </div>
     );
 }

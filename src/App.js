@@ -11,6 +11,7 @@ import "./App.css";
 import logo from "./logo.jpeg";
 import Welcome from "./Welcome";
 import Profile from "./Profile";
+import Chat from "./Chat"; // ✅ Chat bileşeni eklendi
 
 const skills = [
     "Gitar 🎸",
@@ -109,7 +110,7 @@ function AppRoutes() {
         setSelectedSkillsWant([]);
         localStorage.removeItem("user");
         setMessage("Çıkış yapıldı.");
-        navigate("/"); // Çıkışta da ana sayfaya yönlendir
+        navigate("/");
     };
 
     if (isLoggedIn) {
@@ -117,6 +118,7 @@ function AppRoutes() {
             <Routes>
                 <Route path="/" element={<Welcome handleLogout={handleLogout} />} />
                 <Route path="/profile" element={<Profile handleLogout={handleLogout} />} />
+                <Route path="/chat" element={<Chat />} /> {/* ✅ Yeni chat route */}
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         );
@@ -157,8 +159,7 @@ function AppRoutes() {
                             {skills.map((skill, index) => (
                                 <span
                                     key={index}
-                                    className={`pill ${selectedSkillsHave.includes(skill) ? "selected" : ""
-                                        }`}
+                                    className={`pill ${selectedSkillsHave.includes(skill) ? "selected" : ""}`}
                                     onClick={() =>
                                         toggleSkill(skill, selectedSkillsHave, setSelectedSkillsHave)
                                     }
@@ -172,8 +173,7 @@ function AppRoutes() {
                             {skills.map((skill, index) => (
                                 <span
                                     key={index}
-                                    className={`pill ${selectedSkillsWant.includes(skill) ? "selected" : ""
-                                        }`}
+                                    className={`pill ${selectedSkillsWant.includes(skill) ? "selected" : ""}`}
                                     onClick={() =>
                                         toggleSkill(skill, selectedSkillsWant, setSelectedSkillsWant)
                                     }
