@@ -298,3 +298,32 @@ pre {
     font-weight: bold;
     border: 2px solid #6366f1;
 }
+
+.skills-title {
+    font-size: 16px;
+    color: #444;
+    margin: 16px 0 10px;
+}
+
+.skills-display-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.circle-display {
+    width: 60px;
+    height: 60px;
+    background-color: #e0f2fe;
+    color: #0369a1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    padding: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
