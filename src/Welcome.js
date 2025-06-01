@@ -19,7 +19,7 @@ function Welcome({ handleLogout }) {
 
             {skillsHave.length > 0 && (
                 <>
-                    <h3 className="skills-title">Your Skills</h3>
+                    <h4 className="skills-title">Your Skills</h4>
                     <div className="skills-display-row">
                         {skillsHave.slice(0, 3).map((skill, idx) => (
                             <div key={idx} className="circle-display">
@@ -30,8 +30,12 @@ function Welcome({ handleLogout }) {
                 </>
             )}
 
-            <button className="profile-btn" onClick={() => window.location.href = "/profile"}>Profil</button>
-            <button className="red" onClick={handleLogout}>Çıkış Yap</button>
+            <button className="profile-btn" onClick={() => window.location.href = "/profile"}>
+                Profil
+            </button>
+            <button className="red" onClick={handleLogout}>
+                Çıkış Yap
+            </button>
         </div>
     );
 }
