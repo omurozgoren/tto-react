@@ -7,21 +7,22 @@ import Welcome from "./Welcome";
 import Profile from "./Profile";
 
 const skills = [
-    "Guitar 🎸",
-    "French 🇫🇷",
-    "Spanish 🇪🇸",
-    "Graphic Design 🎨",
+    "Gitar 🎸",
+    "Fransızca 🇫🇷",
+    "İspanyolca 🇪🇸",
+    "Grafik Tasarım 🎨",
     "Web Development 💻",
-    "Photography 📸",
-    "Public Speaking 🎤",
-    "Cooking 🍳",
+    "Fotoğraf 📸",
+    "Konuşma 🎤",
+    "Aşçılık 🍳",
     "Yoga 🧘‍♀️",
-    "Video Editing 🎬"
+    "Vidyo Düzenleme 🎬"
 ];
 
 function App() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState(""); // ✅ Yeni: isim state
     const [message, setMessage] = useState("");
     const [selectedSkillsHave, setSelectedSkillsHave] = useState([]);
     const [selectedSkillsWant, setSelectedSkillsWant] = useState([]);
@@ -32,6 +33,7 @@ function App() {
         const savedUser = JSON.parse(localStorage.getItem("user"));
         if (savedUser?.email && savedUser?.token) {
             setEmail(savedUser.email);
+            setName(savedUser.name || ""); // ✅ Yeni: ismi çek
             setIsLoggedIn(true);
         }
     }, []);
@@ -52,6 +54,7 @@ function App() {
 
         const payload = isRegistering
             ? {
+                name, // ✅ Yeni: backend’e gönder
                 email,
                 password,
                 skillsHave: selectedSkillsHave,
@@ -65,6 +68,7 @@ function App() {
 
             if (res.data.token) {
                 localStorage.setItem("user", JSON.stringify({
+                    name: res.data.name || name, // ✅ localStorage’a ekle
                     email,
                     token: res.data.token,
                     skillsHave: selectedSkillsHave,
@@ -81,6 +85,7 @@ function App() {
         setIsLoggedIn(false);
         setEmail("");
         setPassword("");
+        setName("");
         localStorage.removeItem("user");
         setMessage("Çıkış yapıldı.");
     };
@@ -99,6 +104,16 @@ function App() {
                         <img src={logo} alt="TTO Logo" className="logo" />
                         <h2>{isRegistering ? "Kayıt Ol" : "Giriş Yap"}</h2>
                         <form onSubmit={handleSubmit}>
+                            {isRegistering && (
+                                <input
+                                    type="text"
+                                    placeholder="İsminiz"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    required
+                                />
+                            )}
+
                             <input
                                 type="email"
                                 placeholder="E-posta"

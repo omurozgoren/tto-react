@@ -3,11 +3,17 @@ import logo from "./logo.jpeg";
 
 function Welcome({ handleLogout }) {
     const [skillsHave, setSkillsHave] = useState([]);
+    const [userName, setUserName] = useState("");
 
     useEffect(() => {
         const savedUser = JSON.parse(localStorage.getItem("user"));
-        if (savedUser?.skillsHave?.length > 0) {
-            setSkillsHave(savedUser.skillsHave);
+        if (savedUser) {
+            if (savedUser.skillsHave?.length > 0) {
+                setSkillsHave(savedUser.skillsHave);
+            }
+            if (savedUser.name) {
+                setUserName(savedUser.name);
+            }
         }
     }, []);
 
@@ -15,6 +21,7 @@ function Welcome({ handleLogout }) {
         <div className="welcome-container">
             <img src={logo} alt="Logo" className="welcome-logo" />
             <h2 className="welcome-title">Welcome to TTO</h2>
+            <p className="welcome-subtitle">Nice to see you, <strong>{userName}</strong>!</p>
             <p className="welcome-subtitle">Swap skills and grow together</p>
 
             {skillsHave.length > 0 && (
