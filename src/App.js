@@ -22,7 +22,7 @@ const skills = [
 function App() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [name, setName] = useState(""); // ✅ Yeni: isim state
+    const [name, setName] = useState("");
     const [message, setMessage] = useState("");
     const [selectedSkillsHave, setSelectedSkillsHave] = useState([]);
     const [selectedSkillsWant, setSelectedSkillsWant] = useState([]);
@@ -34,6 +34,8 @@ function App() {
         if (savedUser?.email && savedUser?.token) {
             setEmail(savedUser.email);
             setName(savedUser.name || "");
+            setSelectedSkillsHave(savedUser.skillsHave || []);
+            setSelectedSkillsWant(savedUser.skillsWant || []);
             setIsLoggedIn(true);
         }
     }, []);
@@ -67,13 +69,18 @@ function App() {
             setMessage(res.data.message);
 
             if (res.data.token) {
-                localStorage.setItem("user", JSON.stringify({
+                const storedData = {
                     name: res.data.name || name,
                     email,
                     token: res.data.token,
-                    skillsHave: selectedSkillsHave,
-                    skillsWant: selectedSkillsWant
-                }));
+                    skillsHave: isRegistering ? selectedSkillsHave : res.data.skillsHave,
+                    skillsWant: isRegistering ? selectedSkillsWant : res.data.skillsWant
+                };
+
+                localStorage.setItem("user", JSON.stringify(storedData));
+                setName(storedData.name);
+                setSelectedSkillsHave(storedData.skillsHave || []);
+                setSelectedSkillsWant(storedData.skillsWant || []);
                 setIsLoggedIn(true);
             }
         } catch (err) {
@@ -86,6 +93,8 @@ function App() {
         setEmail("");
         setPassword("");
         setName("");
+        setSelectedSkillsHave([]);
+        setSelectedSkillsWant([]);
         localStorage.removeItem("user");
         setMessage("Çıkış yapıldı.");
     };
@@ -96,7 +105,7 @@ function App() {
                 {isLoggedIn ? (
                     <Routes>
                         <Route path="/" element={<Welcome handleLogout={handleLogout} />} />
-                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/profile" element={<Profile handleLogout={handleLogout} />} />
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
                 ) : (
