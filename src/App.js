@@ -33,7 +33,7 @@ function App() {
         const savedUser = JSON.parse(localStorage.getItem("user"));
         if (savedUser?.email && savedUser?.token) {
             setEmail(savedUser.email);
-            setName(savedUser.name || ""); // ✅ Yeni: ismi çek
+            setName(savedUser.name || "");
             setIsLoggedIn(true);
         }
     }, []);
@@ -54,7 +54,7 @@ function App() {
 
         const payload = isRegistering
             ? {
-                name, // ✅ Yeni: backend’e gönder
+                name,
                 email,
                 password,
                 skillsHave: selectedSkillsHave,
@@ -68,7 +68,7 @@ function App() {
 
             if (res.data.token) {
                 localStorage.setItem("user", JSON.stringify({
-                    name: res.data.name || name, // ✅ localStorage’a ekle
+                    name: res.data.name || name,
                     email,
                     token: res.data.token,
                     skillsHave: selectedSkillsHave,
